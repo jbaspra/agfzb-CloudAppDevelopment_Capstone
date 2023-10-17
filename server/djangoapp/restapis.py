@@ -5,8 +5,7 @@ from requests.auth import HTTPBasicAuth
 
 
 # Dealers Description
-DEALERSHIP_BASE_URL = "https://https://jbaspra-3000.theiadocker-2-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
-
+DEALERSHIP_BASE_URL = "https://jbaspra-3000.theiadocker-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
 def get_request(url, **kwargs):
     
     # If argument contain API KEY
@@ -45,28 +44,22 @@ def post_request(url, json_payload, dealerId, **kwargs):
     except requests.exceptions.RequestException as e:
         raise Exception(f'Error making POST request: {e}')
     
+# Create a get_dealers_from_cf method to get dealers from a cloud function
 def get_dealers_from_cf(url, **kwargs):
     results = []
-    state = kwargs.get("state")
-    if state:
-        json_result = get_request(url, state=state)
-    else:
-        json_result = get_request(url)
-
-    print('json_result RESTAPIS', json_result)    
-
+    # Call get_request with a URL parameter
+    json_result = get_request(url)
+    print(json_result)
     if json_result:
         # Get the row list in JSON as dealers
         dealers = json_result
-
         # For each dealer object
         for dealer in dealers:
-            # Get its content in `doc` object
+         
             dealer_doc = dealer
-            # print(dealer_doc)
-            # Create a CarDealer object with values in `doc` object
+         
             dealer_obj = CarDealer(address=dealer_doc["address"], city=dealer_doc["city"], full_name=dealer_doc["full_name"],
-                                   id=dealer_doc["id"], lat=dealer_doc["lat"], long=dealer_doc["long"],
+                                   dealer_id=dealer_doc["id"], lat=dealer_doc["lat"], long=dealer_doc["long"],
                                    short_name=dealer_doc["short_name"],
                                    st=dealer_doc["st"], zip=dealer_doc["zip"])
             results.append(dealer_obj)
