@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 # from .models import related models
 from .models import DealerReview, CarModel, CarMake
 # from .restapis import related methods
-from .restapis import get_dealers_from_cf, get_dealer_by_id, get_dealers_by_state
+from .restapis import get_dealers_from_cf, get_dealer_by_id, get_dealers_by_state, get_dealer_reviews_from_cf
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
@@ -96,14 +96,16 @@ def get_dealerships(request):
 # def get_dealer_details(request, dealer_id):
 # ...
 def get_dealer_details(request, dealer_id):
-    context = {}
     if request.method == "GET":
-        url = 'https://jbaspra-3000.theiadocker-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get'
-        reviews = get_dealer_reviews_from_cf(url, dealer_id=dealer_id)
-        context = {
-            "reviews":  reviews, 
-            "dealer_id": dealer_id
-        }
+        context = {}
+        dealer_url = 'https://jbaspra-3000.theiadocker-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get'
+        dealer = get_dealers_from_cf(dealer_url, dealer_id=dealer_id)
+        context["dealer"] = dealer
+
+        review_url = "https://jbaspra-5000.theiadocker-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/get_reviews"
+        reviews = get_dealer_reviews_from_cf(review_url, dealer_id=dealer_id)
+        print(reviews)
+        context["reviews"] = reviews
 
         return render(request, 'djangoapp/dealer_details.html', context)
 # Create a `add_review` view to submit a review
