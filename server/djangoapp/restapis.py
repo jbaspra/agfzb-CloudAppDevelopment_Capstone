@@ -5,7 +5,7 @@ from requests.auth import HTTPBasicAuth
 
 
 # Dealers Description
-DEALERSHIP_BASE_URL = "https://jbaspra-3000.theiadocker-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
+DEALERSHIP_BASE_URL = "https://jbaspra-3000.theiadocker-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
 def get_request(url, **kwargs):
     
     # If argument contain API KEY

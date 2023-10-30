@@ -50,7 +50,7 @@
         <thead>
             <tr>
                 <th data-field="id">ID</th>
-                
+                <th data-field="dealer name">Dealer Name</th>
                 <th data-field="city">City</th>
                 <th data-field="address">Address</th>
                 <th data-field="zip">Zip</th>
@@ -62,6 +62,7 @@
                 <tr>
                     
                     <td>{{dealer.dealer_id}}</td>
+                    <td><a href="{% url 'djangoapp:dealer_details' dealer.id %}">{{dealer.full_name}}</a></td>
                     <td>{{dealer.city}}</td>
                     <td>{{dealer.address}}</td>
                     <td>{{dealer.zip}}</td>
@@ -74,3 +75,9 @@
 
 
 </body>
+<script>
+  $(function() {
+    $('#table').bootstrapTable()
+  })
+</script>
+</html>
