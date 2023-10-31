@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 # from .models import related models
 from .models import DealerReview, CarModel, CarMake
 # from .restapis import related methods
-from .restapis import get_dealers_from_cf, get_dealer_by_id, get_dealers_by_state, get_dealer_reviews_from_cf
+from .restapis import get_dealers_from_cf, get_dealer_by_id_from_cf, get_dealers_by_state, get_dealer_reviews_from_cf
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
@@ -95,15 +95,15 @@ def get_dealerships(request):
 # Create a `get_dealer_details` view to render the reviews of a dealer
 # def get_dealer_details(request, dealer_id):
 # ...
-def get_dealer_details(request, id):
+def get_dealer_details(request, dealer_id):
      if request.method == "GET":
          context = {}
          dealer_url = "Theia-URL-3000/dealerships/get"
-         dealer = get_dealer_by_id_from_cf(dealer_url, id = dealer_id)
+         dealer = get_dealer_by_id_from_cf(dealer_url, dealer_id = dealer_id)
          context['dealer'] = dealer
 
          review_url = "Theia-URL-5000/api/get_reviews"
-         reviews = get_dealer_reviews_from_cf(review_url, id = dealer_id)
+         reviews = get_dealer_reviews_from_cf(review_url, dealer_id = dealer_id)
          print(reviews)
          context['reviews'] = reviews
 

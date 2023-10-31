@@ -15,61 +15,37 @@
         <a class="navbar-brand" href="#">Dealership Review</a>
         </div> -->
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Best Cars</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href= "{% url 'djangoapp:index' %}">Dealership Review</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href= "{% url 'djangoapp:about' %}">About</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="{% url 'djangoapp:contact' %}">Contact</a>
-                    </li>
-                </ul>
-                </div>
-            </div>
-        
-    
-
-        <ul>
-        {% if user.is_authenticated %}
+<!-- Navigation bar -->
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{% url 'djangoapp:index' %}">Dealership Review</a>
+            <a class="navbar-brand" href="{% url 'djangoapp:about' %}">About us</a>
+            <a class="navbar-brand" href="{% url 'djangoapp:contact' %}">Contact us</a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            {% if user.is_authenticated %}
             <li>
+                <a class="btn btn-link" href="{% url 'djangoapp:add_review' dealer.dealer_id %}">Add Review</a>
                 <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
                 <a class="btn btn-link" href="{% url 'djangoapp:logout' %}">Logout</a>
             </li>
             {% else %}
             <li>
-                <form class="d-flex flex-row justify-content-end">
+                <form class="form-inline" action="{% url 'djangoapp:login' %}" method="post">
                     {% csrf_token %}
-                    <div class="col-auto">
-                    
-                        <input type="text" class="form-control" name="username" placeholder="Username" >
-                    </div>
-                    <div class="col-auto">
-                        
-                        <input type="password" name= "psw" class="form-control" placeholder="Password">
-                    </div>
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-primary mb-3">login</button>
-                        
-                    </div>
-                    <div class="col-auto">
-                        
-                        <!-- <button type="submit"  class="btn btn-primary mb-3"> signup</button> -->
-                        <a class="btn btn-link" href="{% url 'djangoapp:register' %}">Sign Up</a>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Username" name="username" >
+                        <input type="password" class="form-control" placeholder="Password" name="psw" >
+                        <button class="btn btn-primary" type="submit">Login</button>
+                        <a class="btn btn-link" href="{% url 'djangoapp:registration' %}">Sign Up</a>
                     </div>
                 </form>
             </li>
-        {% endif %}
+            {% endif %}
         </ul>
-    </nav>
+    </div>
+</nav>
 
     <!-- Add reviews as cards -->
     <div class="col-md mb-5 mt-3">
@@ -107,7 +83,7 @@
             <div class="card">
                 <div class="card-body bg-light">
                     <h5 class="card-title">No reviews yet</h5>
-                    <a class="btn btn-link" href="{% url 'djangoapp:add_review' dealer.id %}">Be first to add a review?</a>
+                    <a class="btn btn-link" href="{% url 'djangoapp:add_review' dealer.dealer_id %}">Be first to add a review?</a>
                 </div>
             </div>
         </div>
