@@ -8,6 +8,7 @@ from requests.auth import HTTPBasicAuth
 DEALERSHIP_BASE_URL = "https://jbaspra-3000.theiadocker-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
 def get_request(url, **kwargs):
     
+    response = None
     # If argument contain API KEY
     api_key = kwargs.get("TQHSOOB6wvN93tS8_Bbotnz2zwK0CaclQA3q81QM_qX5")
     print("GET from {} ".format(url))
@@ -170,3 +171,15 @@ def analyze_review_sentiments(dealerreview):
         # Handle any exceptions here
         print("Error analyzing sentiment:", str(e))
         return None
+
+def get_dealer_by_id_from_cf(url, id):
+    json_result = get_request(url, id=id)
+    # print('json_result from line 54',json_result)
+
+    if json_result:
+        dealers = json_result
+        dealer_doc = dealers[0]
+        dealer_obj = CarDealer(address=dealer_doc["address"], city=dealer_doc["city"],
+                                id=dealer_doc["id"], lat=dealer_doc["lat"], long=dealer_doc["long"], full_name=dealer_doc["full_name"],
+                                st=dealer_doc["st"], zip=dealer_doc["zip"], short_name=dealer_doc.get("short_name"))
+    return dealer_obj
